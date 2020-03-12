@@ -1,6 +1,12 @@
-<h1>welcome to Bookers !!</h1>
-<p>In Bookers,<br>
-you can share and exchange your opinions, inpressions, and emotions<br>
-about various books!</p>
-<strong><%= link_to "Log in", new_user_session_path %></strong>
-<strong><%= link_to "Sign up", new_user_registration_path %></strong>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-4 col-lg-offset-4">
+			<h1>welcome to Bookers !!</h1>
+			<p>In Bookers,<br>
+			you can share and exchange your opinions, inpressions, and emotions<br>
+			about various books!</p>
+			<p><%= link_to "Log in", new_user_session_path, class: "btn btn-block btn-info" %></p>
+			<p><%= link_to "Sign up", new_user_registration_path, class: "btn btn-block btn-success" %></p>
+		</div>
+	</div>
+</div>
