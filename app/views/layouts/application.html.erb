@@ -50,7 +50,7 @@
           <li>
             <%= link_to destroy_user_session_path, method: :delete do %>
               <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
-              Logout
+              logout
             <% end %>
           </li>
         <% else %>
@@ -69,13 +69,13 @@
           <li>
             <%= link_to new_user_registration_path do %>
               <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-              Sign up
+              sign up
             <% end %>
           </li>
           <li>
             <%= link_to new_user_session_path do %>
               <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
-              Login
+              login
             <% end %>
           </li>
         <% end %>
@@ -88,8 +88,14 @@
    <%= flash[:notice] %>
 </div>
     <%= yield %>
-<div class="container footer">
-  CopyRight Infratop.inc
-</div>
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-3">
+        CopyRight Infratop.inc
+      </div>
+    </div>
+  </div>
+</footer>
 </body>
 </html>
