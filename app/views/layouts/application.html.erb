@@ -15,7 +15,7 @@
   <div class="container">
     <div class="navbar-header">
       <h4 class="navbar-text">
-        Bookers
+        <span class="title">Bookers</span>
       </h4>
       <button type="button" class="navbar-toggle collapsed"data-toggle="collapse"data-target="#navbarEexample8">
         <span class="sr-only">Toggle navigation</span>
@@ -84,18 +84,12 @@
   </div>
 </nav>
 
-<div class="container flash">
+<div class="container flash main-body text-success">
    <%= flash[:notice] %>
 </div>
     <%= yield %>
-<footer>
-  <nav class="navbar navbar-default navbar-static-top">
-    <div class="container">
-      <div class="navbar-footer">
-        <p class="navbar-text navbar-right">CopyRight Infratop.inc</p>
-      </div>
-    </div>
-  </nav>
-</footer>
+<div class="container footer">
+  CopyRight Infratop.inc
+</div>
 </body>
 </html>
