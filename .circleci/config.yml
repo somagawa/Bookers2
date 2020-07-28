@@ -3,10 +3,11 @@ jobs: # ステップの集合
   build: # Workflows を使用しない実行では、エントリポイントとして `build` ジョブが必要
     parallelism: 3 # このジョブのインスタンスを 3つ並列実行します
     docker: # Docker でステップを実行します
-      - image: circleci/ruby:2.4.2-jessie-node # このイメージをすべての `steps` が実行されるプライマリコンテナとして使用します
+      - image: circleci/ruby:2.5.7-jessie-node # このイメージをすべての `steps` が実行されるプライマリコンテナとして使用します
         environment: # プライマリコンテナの環境変数
           BUNDLE_JOBS: 3
           BUNDLE_RETRY: 3
+          BUNDLER_VERSION: 2.0.2
           BUNDLE_PATH: vendor/bundle
           PGHOST: 127.0.0.1
           PGUSER: circleci-demo-ruby
