@@ -21,17 +21,6 @@ jobs: # ステップの集合
     steps: # 実行可能コマンドの集合
       - checkout # ソースコードを作業ディレクトリにチェックアウトする特別なステップ
 
-      # Bundler のバージョンを指定します
-      - run:
-          name: update bundler
-          command: |
-            gem update --system
-            gem install bundler
-
-      - run:
-          name: which bundler?
-          command: bundle -v
-
       # バンドルキャッシュを復元します
       # 依存関係キャッシュについては https://circleci.com/docs/ja/2.0/caching/ をお読みください
 
