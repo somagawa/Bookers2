@@ -27,6 +27,12 @@ jobs: # ステップの集合
           name: which bundler?
           command: bundle -v
 
+      - run:
+          name: update bundler
+          command: |
+            gem update --system
+            gem install bundler
+
       # バンドルキャッシュを復元します
       # 依存関係キャッシュについては https://circleci.com/docs/ja/2.0/caching/ をお読みください
 
