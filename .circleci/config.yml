@@ -14,10 +14,9 @@ jobs: # ステップの集合
           RAILS_ENV: test
       - image: circleci/mysql:5.7 # データベースイメージ
         environment: # データベースの環境変数
-          MYSQL_ROOT_PASSWORD: password
-          MYSQL_USER: user
-          MYSQL_PASSWORD: 1234
-          MYSQL_DATABASE: Bookers2_db
+          MYSQL_ALLOW_EMPTY_PASSWORD: true
+          MYSQL_ROOT_PASSWORD: ''
+          MYSQL_DATABASE: ci_rails_sample_test
     steps: # 実行可能コマンドの集合
       - checkout # ソースコードを作業ディレクトリにチェックアウトする特別なステップ
 
