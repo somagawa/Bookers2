@@ -11,7 +11,7 @@ jobs:
           MYSQL_ROOT_PASSWORD: password
           MYSQL_USER: user
           MYSQL_PASSWORD: 1234
-          MYSQL_DATABASE: Bookers2_db
+          MYSQL_DATABASE: Bookers2_test
     working_directory: ~/repo
     steps:
       - checkout
