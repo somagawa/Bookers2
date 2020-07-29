@@ -11,11 +11,11 @@ jobs: # ステップの集合
           PGHOST: 127.0.0.1
           PGUSER: circleci-demo-ruby
           RAILS_ENV: test
-      - image: circleci/postgres:9.5-alpine # データベースイメージ
+      - image: circleci/mysql:5.7 # データベースイメージ
         environment: # データベースの環境変数
-          POSTGRES_USER: circleci-demo-ruby
-          POSTGRES_DB: rails_blog
-          POSTGRES_PASSWORD: ""
+          MYSQL_ALLOW_EMPTY_PASSWORD: true
+          MYSQL_ROOT_PASSWORD: ''
+          MYSQL_DATABASE: ci_rails_sample_test
     steps: # 実行可能コマンドの集合
       - checkout # ソースコードを作業ディレクトリにチェックアウトする特別なステップ
 
@@ -47,7 +47,7 @@ jobs: # ステップの集合
 
       - run:
           name: wait for DB
-          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+          command: dockerize -wait tcp://127.0.0.1:3306 -timeout 1m
 
       - run:
           name: Database setup
