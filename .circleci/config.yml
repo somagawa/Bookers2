@@ -51,7 +51,7 @@ jobs: # ステップの集合
 
       - run:
           name: Database setup
-          command: bin/rails db:schema:load --trace
+          command: bundle exec rake db:schema:load
 
       - run:
           name: Run rspec in parallel
