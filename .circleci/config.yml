@@ -1,72 +1,32 @@
-version: 2 # CircleCI 2.0 を使用します
-jobs: # ステップの集合
-  build: # Workflows を使用しない実行では、エントリポイントとして `build` ジョブが必要
-    parallelism: 3 # このジョブのインスタンスを 3つ並列実行します
-    docker: # Docker でステップを実行します
-      - image: circleci/ruby:2.5.7 # このイメージをすべての `steps` が実行されるプライマリコンテナとして使用します
-        environment: # プライマリコンテナの環境変数
-          BUNDLE_JOBS: 3
-          BUNDLE_RETRY: 3
-          BUNDLE_PATH: vendor/bundle
-          PGHOST: 127.0.0.1
-          PGUSER: circleci-demo-ruby
+version: 2
+
+jobs:
+  test:
+    docker:
+      - image: circleci/ruby:2.5.1-node-browsers
+        environment:
           RAILS_ENV: test
-      - image: circleci/mysql:5.7 # データベースイメージ
-        environment: # データベースの環境変数
+      - image: circleci/mysql:5.6
+        environment:
           MYSQL_ALLOW_EMPTY_PASSWORD: true
           MYSQL_ROOT_PASSWORD: ''
           MYSQL_DATABASE: ci_rails_sample_test
-    steps: # 実行可能コマンドの集合
-      - checkout # ソースコードを作業ディレクトリにチェックアウトする特別なステップ
-
-      # Bundler のバージョンを指定します
+    working_directory: ~/repo
+    steps:
+      - checkout
       - run:
-          name: update bundler
-          command: |
-            gem update --system
-            gem install bundler
-
-      # バンドルキャッシュを復元します
-      # 依存関係キャッシュについては https://circleci.com/docs/ja/2.0/caching/ をお読みください
-
-      - restore_cache:
-          keys:
-            - rails-demo-bundle-v2-{{ checksum "Gemfile.lock" }}
-            - rails-demo-bundle-v2-
-
-      - run: # Ruby の依存関係をインストールします
           name: bundle install
-          command: bundle check || bundle install
-
-      # Ruby の依存関係のバンドルキャッシュを保存します
-
-      - save_cache:
-          key: rails-demo-bundle-v2-{{ checksum "Gemfile.lock" }}
-          paths:
-            - vendor/bundle
-
+          command: bundle install --path vendor/bundle
       - run:
-          name: wait for DB
+          name: データベースの起動を待機
           command: dockerize -wait tcp://127.0.0.1:3306 -timeout 1m
-
       - run:
-          name: Database setup
+          name: データベースのセットアップ
           command: bundle exec rake db:schema:load
+      - run: 
+          name: テストの実行
+          command: bundle exec rspec
 
-      - run:
-          name: Run rspec in parallel
-          command: |
-            bundle exec rspec --profile 10 \
-                              --format RspecJunitFormatter \
-                              --out test_results/rspec.xml \
-                              --format progress \
-                              $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-
-      # タイミング解析のテスト結果を保存します
-
-      - store_test_results: # テストサマリー (https://circleci.com/docs/ja/2.0/collect-test-data/) に表示するテスト結果をアップロードします
-          path: test_results
-      # デプロイコンフィグの例については https://circleci.com/docs/ja/2.0/deployment-integrations/ を参照してください
 
 workflows:
   version: 2
