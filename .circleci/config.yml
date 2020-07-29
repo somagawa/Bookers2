@@ -67,3 +67,9 @@ jobs: # ステップの集合
       - store_test_results: # テストサマリー (https://circleci.com/docs/ja/2.0/collect-test-data/) に表示するテスト結果をアップロードします
           path: test_results
       # デプロイコンフィグの例については https://circleci.com/docs/ja/2.0/deployment-integrations/ を参照してください
+
+workflows:
+  version: 2
+  workflows:
+    jobs:
+      - test
