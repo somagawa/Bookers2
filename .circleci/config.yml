@@ -21,7 +21,7 @@ jobs:
             gem install bundler
       - run:
           name: bundle install
-          command: bundle install --path vendor/bundle
+          command: bundle check || bundle install
       - run:
           name: データベースの起動を待機
           command: dockerize -wait tcp://127.0.0.1:3306 -timeout 1m
