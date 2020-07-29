@@ -1,34 +1,32 @@
 version: 2 # CircleCI 2.0 を使用します
-jobs: # ステップの集合
-  build: # Workflows を使用しない実行では、エントリポイントとして `build` ジョブが必要
-    parallelism: 3 # このジョブのインスタンスを 3つ並列実行します
+jobs: # 一連のステップ
+  build: # ワークフローを使用しない実行では、エントリポイントとして `build` ジョブが必要です
+    parallelism: 3 # このジョブのインスタンスを 3 つ並列実行します
     docker: # Docker でステップを実行します
-      - image: circleci/ruby:2.5.7 # このイメージをすべての `steps` が実行されるプライマリコンテナとして使用します
-        environment: # プライマリコンテナの環境変数
-          BUNDLER_VERSION: 2.0.1
+      - image: circleci/ruby:2.4.2-jessie-node # このイメージをすべての `steps` が実行されるプライマリ コンテナとして使用します
+        environment: # プライマリ コンテナの環境変数
           BUNDLE_JOBS: 3
           BUNDLE_RETRY: 3
           BUNDLE_PATH: vendor/bundle
           PGHOST: 127.0.0.1
           PGUSER: circleci-demo-ruby
           RAILS_ENV: test
-      - image: circleci/mysql:5.7 # データベースイメージ
+      - image: circleci/postgres:9.5-alpine # データベース イメージ
         environment: # データベースの環境変数
-          MYSQL_ROOT_PASSWORD: password
-          MYSQL_USER: user
-          MYSQL_PASSWORD: 1234
-          MYSQL_DATABASE: Bookers2_db
+          POSTGRES_USER: circleci-demo-ruby
+          POSTGRES_DB: rails_blog
+          POSTGRES_PASSWORD: ""
     steps: # 実行可能コマンドの集合
-      - checkout # ソースコードを作業ディレクトリにチェックアウトする特別なステップ
+      - checkout # ソース コードを作業ディレクトリにチェックアウトする特別なステップ
 
       # Bundler のバージョンを指定します
 
       - run:
-          name: which bundler?
+          name: Bundler の指定
           command: bundle -v
 
-      # バンドルキャッシュを復元します
-      # 依存関係キャッシュについては https://circleci.com/docs/ja/2.0/caching/ をお読みください
+      # バンドル キャッシュを復元します
+      # 依存関係キャッシュについては https://circleci.com/ja/docs/2.0/caching/ をお読みください
 
       - restore_cache:
           keys:
@@ -36,10 +34,10 @@ jobs: # ステップの集合
             - rails-demo-bundle-v2-
 
       - run: # Ruby の依存関係をインストールします
-          name: bundle install
-          command: bundle check || bundle install
+          name: バンドル インストール
+          command: bundle check --path vendor/bundle || bundle install --deployment
 
-      # Ruby の依存関係のバンドルキャッシュを保存します
+      # Ruby の依存関係のバンドル キャッシュを保存します
 
       - save_cache:
           key: rails-demo-bundle-v2-{{ checksum "Gemfile.lock" }}
@@ -47,15 +45,15 @@ jobs: # ステップの集合
             - vendor/bundle
 
       - run:
-          name: wait for DB
+          name: DB の待機
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
 
       - run:
-          name: Database setup
+          name: データベースのセットアップ
           command: bin/rails db:schema:load --trace
 
       - run:
-          name: Run rspec in parallel
+          name: RSpec の並列実行
           command: |
             bundle exec rspec --profile 10 \
                               --format RspecJunitFormatter \
@@ -65,6 +63,5 @@ jobs: # ステップの集合
 
       # タイミング解析のテスト結果を保存します
 
-      - store_test_results: # テストサマリー (https://circleci.com/docs/ja/2.0/collect-test-data/) に表示するテスト結果をアップロードします
+      - store_test_results: # テスト サマリー (https://circleci.com/ja/docs/2.0/collect-test-data/) に表示するテスト結果をアップロードします
           path: test_results
-      # デプロイコンフィグの例については https://circleci.com/docs/ja/2.0/deployment-integrations/ を参照してください
