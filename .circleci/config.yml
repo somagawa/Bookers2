@@ -21,12 +21,6 @@ jobs: # ステップの集合
     steps: # 実行可能コマンドの集合
       - checkout # ソースコードを作業ディレクトリにチェックアウトする特別なステップ
 
-      # Bundler のバージョンを指定します
-
-      - run:
-          name: which bundler?
-          command: bundle -v
-
       - run:
           name: update bundler
           command: |
