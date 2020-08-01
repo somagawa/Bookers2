@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/ruby:2.5.1-node-browsers
+      - image: circleci/ruby:2.5.7-node-browsers
         environment:
           RAILS_ENV: test
           DB_HOST: 127.0.0.1
@@ -36,7 +36,7 @@ jobs:
       - run:
           name: install dependencies
           command: |
-            bundle install --path vendor/bundle
+            bundle install
 
       - save_cache:
           paths:
