@@ -22,8 +22,10 @@ jobs: # ステップの集合
       # Bundler のバージョンを指定します
 
       - run:
-          name: Bundler を指定
-          command: bundle -v
+          name: update bundler
+          command: |
+            gem update --system
+            gem install bundler
 
       # バンドルキャッシュを復元します
       # 依存関係キャッシュについては https://circleci.com/docs/ja/2.0/caching/ をお読みください
@@ -46,6 +48,21 @@ jobs: # ステップの集合
 
       # アプリケーションで Webpacker または Yarn を他の何らかの方法で使用する場合にのみ必要です
 
+      - restore_cache:
+          keys:
+            - rails-demo-yarn-{{ checksum "yarn.lock" }}
+            - rails-demo-yarn-
+
+      - run:
+          name: Yarn をインストール
+          command: yarn install --cache-folder ~/.cache/yarn
+
+      # Yarn または Webpacker のキャッシュを保存します
+
+      - save_cache:
+          key: rails-demo-yarn-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
 
       - run:
           name: DB を待機
