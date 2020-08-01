@@ -35,7 +35,8 @@ jobs:
 
       - run:
           name: install dependencies
-          command: bundle install
+          command: |
+            bundle install
 
       - save_cache:
           paths:
@@ -53,7 +54,7 @@ jobs:
       # run tests!
       - run:
           name: RSpec を実行
-        command: bundle exec rspec spec/ --format documentation
+          command: bundle exec rspec spec/ --format documentation
 
       # collect reports
       - store_test_results:
