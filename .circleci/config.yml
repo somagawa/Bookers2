@@ -35,7 +35,8 @@ jobs:
 
       - run:
           name: install dependencies
-          command: bundle check || bundle install
+          command: |
+            bundle install --path vendor/bundle
 
       - save_cache:
           paths:
