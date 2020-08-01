@@ -35,8 +35,7 @@ jobs:
 
       - run:
           name: install dependencies
-          command: |
-            bundle install
+          command: bundle install
 
       - save_cache:
           paths:
@@ -52,13 +51,9 @@ jobs:
       - run: bundle exec rails db:schema:load
 
       # run tests!
-      - type: shell
-        command: |
-          bundle exec rspec --profile 10 \
-                            --format RspecJunitFormatter \
-                            --out test_results/rspec.xml \
-                            --format progress \
-                            $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+      - run:
+          name: RSpec を実行
+        command: bundle exec rspec spec/ --format documentation
 
       # collect reports
       - store_test_results:
