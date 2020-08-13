@@ -53,6 +53,14 @@ class BooksController < ApplicationController
 		redirect_to books_path
 	end
 
+	def search
+	  @books = Book.search(params[:keyword])
+	  @keyword = params[:keyword]
+		@user = User.find(current_user.id)
+		@book = Book.new
+	  render "index"
+	end
+
 	private
 
 	def book_params

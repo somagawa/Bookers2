@@ -607,4 +607,50 @@ ci-info: |   3   | 192.168.33.0 | 0.0.0.0  |  255.255.255.0  |   enp0s8  |   U  
 
 Ubuntu 18.04.4 LTS ubuntu-bionic ttyS0
 
-ubuntu-bionic login: 
+ubuntu-bionic login: [225652.037963] Out of memory: Kill process 23799 (ruby2.5) score 165 or sacrifice child
+[225652.073993] Killed process 23838 (convert) total-vm:180656kB, anon-rss:95316kB, file-rss:200kB, shmem-rss:0kB
+[226825.501117] Out of memory: Kill process 23799 (ruby2.5) score 256 or sacrifice child
+[226825.517913] Killed process 23965 (convert) total-vm:180656kB, anon-rss:96532kB, file-rss:0kB, shmem-rss:0kB
+[226865.485712] Out of memory: Kill process 23799 (ruby2.5) score 256 or sacrifice child
+[226865.502447] Killed process 24021 (convert) total-vm:180656kB, anon-rss:85240kB, file-rss:0kB, shmem-rss:0kB
+[226867.034120] Out of memory: Kill process 23799 (ruby2.5) score 256 or sacrifice child
+[226867.039298] Killed process 24029 (convert) total-vm:176256kB, anon-rss:95684kB, file-rss:4kB, shmem-rss:0kB
+[260452.321669] e1000 0000:00:03.0 enp0s3: Detected Tx Unit Hang
+[260452.321669]   Tx Queue             <0>
+[260452.321669]   TDH                  <1>
+[260452.321669]   TDT                  <4>
+[260452.321669]   next_to_use          <4>
+[260452.321669]   next_to_clean        <1>
+[260452.321669] buffer_info[next_to_clean]
+[260452.321669]   time_stamp           <103e08d8a>
+[260452.321669]   next_to_watch        <3>
+[260452.321669]   jiffies              <103e090c8>
+[260452.321669]   next_to_watch.status <0>
+[260458.186335] e1000 0000:00:03.0 enp0s3: Reset adapter
+[289071.388086] Kernel panic - not syncing: stack-protector: Kernel stack is corrupted in: VbglR0SfCreate+0xc5/0xd0 [vboxsf]
+[289071.494975] CPU: 1 PID: 27868 Comm: ruby Tainted: G        W        4.15.0-88-generic #88-Ubuntu
+[289071.496726] Hardware name: innotek GmbH VirtualBox/VirtualBox, BIOS VirtualBox 12/01/2006
+[289071.507321] Call Trace:
+[289071.507968]  dump_stack+0x6d/0x8e
+[289071.508786]  panic+0xe4/0x254
+[289071.509532]  ? VbglR0SfCreate+0xc5/0xd0 [vboxsf]
+[289071.510613]  ? rtR0MemFree+0x5f/0x80 [vboxguest]
+[289071.511699]  __stack_chk_fail+0x19/0x20
+[289071.512654]  VbglR0SfCreate+0xc5/0xd0 [vboxsf]
+[289071.513464]  ? sf_lookup+0xba/0x200 [vboxsf]
+[289071.514246]  ? __dentry_kill+0x129/0x170
+[289071.514972]  ? _cond_resched+0x19/0x40
+[289071.515673]  ? dput.part.26+0x36/0x200
+[289071.562371]  ? lookup_slow+0xab/0x170
+[289071.612254]  ? walk_component+0x1c3/0x470
+[289071.643416]  ? path_init+0x180/0x310
+[289071.644224]  ? path_lookupat+0x84/0x1f0
+[289071.645078]  ? filename_lookup+0xb6/0x190
+[289071.661852]  ? __check_object_size+0xc8/0x1b0
+[289071.689803]  ? user_path_at_empty+0x36/0x40
+[289071.714082]  ? user_path_at_empty+0x36/0x40
+[289071.752449]  ? SyS_chdir+0x43/0xe0
+[289071.783448]  ? do_syscall_64+0x73/0x130
+[289071.803031]  ? entry_SYSCALL_64_after_hwframe+0x3d/0xa2
+[289071.875204] Kernel Offset: 0x1c600000 from 0xffffffff81000000 (relocation range: 0xffffffff80000000-0xffffffffbfffffff)
+[289071.877729] ---[ end Kernel panic - not syncing: stack-protector: Kernel stack is corrupted in: VbglR0SfCreate+0xc5/0xd0 [vboxsf]
